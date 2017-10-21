@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,7 +13,8 @@ public class QuizActivity extends AppCompatActivity
 {
     private Button trueButton;
     private Button falseButton;
-    private Button nextButton;
+    private ImageButton nextButton;
+    private ImageButton prevButton;
     private TextView questionTextView;
     private Question[] questionBank= new Question[]{
             new Question(R.string.question_australia,true),
@@ -29,13 +31,14 @@ public class QuizActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
-        trueButton=(Button)findViewById(R.id.true_button);
+        trueButton=(Button) findViewById(R.id.true_button);
         falseButton=(Button)findViewById(R.id.false_button);
-        nextButton=(Button) findViewById(R.id.next_button);
+        nextButton=(ImageButton) findViewById(R.id.next_button);
+        prevButton=(ImageButton) findViewById(R.id.prev_button);
         questionTextView=(TextView) findViewById(R.id.question_text_view);
         toast=Toast.makeText(this,"",Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.TOP,0,0);
-        updateQuestion();
+        nextQuestion();
         trueButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -58,13 +61,37 @@ public class QuizActivity extends AppCompatActivity
             public void onClick(View v)
             {
 
-                updateQuestion();
+                nextQuestion();
             }
         });
+        prevButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                prevQuestion();
+            }
+        });
+        questionTextView.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                nextQuestion();
+            }
+        });
+
     }
-    private  void updateQuestion()
+    private  void nextQuestion()
     {
         currentIndex=++currentIndex%questionBank.length;
+        questionTextView.setText(questionBank[currentIndex].getTextResId());
+    }
+    private  void prevQuestion()
+    {
+        currentIndex--;
+        if(currentIndex<0)
+            currentIndex=questionBank.length-1;
         questionTextView.setText(questionBank[currentIndex].getTextResId());
     }
     private void checkAnswer(boolean userPressedTrue)
