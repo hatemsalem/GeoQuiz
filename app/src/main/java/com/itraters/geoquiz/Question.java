@@ -8,6 +8,7 @@ public class Question
 {
     private int textResId;
     private boolean answertTrue;
+    private boolean answered;
 
     public Question(int textResId, boolean answertTrue)
     {
@@ -33,5 +34,15 @@ public class Question
     public void setAnswertTrue(boolean answertTrue)
     {
         this.answertTrue = answertTrue;
+    }
+
+    public boolean isAnswered()
+    {
+        return answered;
+    }
+
+    public void setAnswered(boolean answered)
+    {
+        this.answered = answered;
     }
 }

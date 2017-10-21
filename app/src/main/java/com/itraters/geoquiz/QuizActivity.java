@@ -1,8 +1,7 @@
 package com.itraters.geoquiz;
 
-import android.nfc.Tag;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -92,18 +91,19 @@ public class QuizActivity extends AppCompatActivity
     private  void nextQuestion()
     {
         currentIndex=++currentIndex%questionBank.length;
-        questionTextView.setText(questionBank[currentIndex].getTextResId());
+        updateAnswerButtons();
     }
     private  void prevQuestion()
     {
         currentIndex--;
         if(currentIndex<0)
             currentIndex=questionBank.length-1;
-        questionTextView.setText(questionBank[currentIndex].getTextResId());
+        updateAnswerButtons();
     }
     private void checkAnswer(boolean userPressedTrue)
     {
-
+        questionBank[currentIndex].setAnswered(true);
+        updateAnswerButtons();
         if(questionBank[currentIndex].isAnswertTrue()==userPressedTrue)
         {
             toast.setText(R.string.correct_toast);
@@ -113,6 +113,22 @@ public class QuizActivity extends AppCompatActivity
             toast.setText(R.string.incorrect_toast);
         }
         toast.show();
+
+    }
+    private void updateAnswerButtons()
+    {
+        if(questionBank[currentIndex].isAnswered())
+        {
+            trueButton.setEnabled(false);
+            falseButton.setEnabled(false);
+        }
+        else
+        {
+            trueButton.setEnabled(true);
+            falseButton.setEnabled(true);
+        }
+        questionTextView.setText(questionBank[currentIndex].getTextResId());
+
     }
 
     @Override
