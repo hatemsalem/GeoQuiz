@@ -2,6 +2,7 @@ package com.itraters.geoquiz;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -23,6 +24,7 @@ public class QuizActivity extends AppCompatActivity
     private ImageButton nextButton;
     private ImageButton prevButton;
     private TextView questionTextView;
+    private TextView apiTextView;
     private Question[] questionBank= new Question[]{
             new Question(R.string.question_australia,true),
             new Question(R.string.question_oceans,true),
@@ -48,6 +50,7 @@ public class QuizActivity extends AppCompatActivity
         nextButton=(ImageButton) findViewById(R.id.next_button);
         prevButton=(ImageButton) findViewById(R.id.prev_button);
         questionTextView=(TextView) findViewById(R.id.question_text_view);
+        apiTextView=(TextView) findViewById(R.id.apiTextView);
         toast=Toast.makeText(this,"",Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.TOP,0,0);
         nextQuestion();
@@ -100,6 +103,7 @@ public class QuizActivity extends AppCompatActivity
                 startActivityForResult(CheatActivity.newIntent(QuizActivity.this,questionBank[currentIndex].isAnswertTrue()),REQUEST_CODE_CHEAT);
             }
         });
+        apiTextView.setText("API Level :"+Build.VERSION.SDK_INT);
     }
 
     @Override
